@@ -1,18 +1,9 @@
 #include "principal.h"
 #include "ui_principal.h"
 
-#include <QImage>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QPaintEvent>
-#include <QDebug>
-#include <QInputDialog>
-#include <QColorDialog>
-#include <QFileDialog>
-#include <QMessageBox>
-
 #define DEFAULT_ANCHO 3
 
+//:)
 Principal::Principal(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Principal)
@@ -51,8 +42,11 @@ void Principal::paintEvent(QPaintEvent *event)
 
 void Principal::mousePressEvent(QMouseEvent *event)
 {
+    //levanta la bandera (para que se pueda dibujar)
     mPuedeDibujar = true;
+    //captura la posición (punto x,y) del mouse
     mInicial = event->pos();
+    //Acepta el evento
     event->accept();
 }
 
@@ -60,10 +54,12 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
 {
     // Validar si se puede dibujar
     if ( !mPuedeDibujar ) {
+        //Acepta el evento
         event->accept();
+        //Salir del método
         return;
     }
-    // Capturar el punto donde se suelta el mouse
+    // Capturar el punto donde se mueve el mouse
     mFinal = event->pos();
     // Crear un pincel y establecer atributos
     QPen pincel;
@@ -82,6 +78,7 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
 
 void Principal::mouseReleaseEvent(QMouseEvent *event)
 {
+    //Bajar la bandera (no se ...)
     mPuedeDibujar = false;
     // Aceptar el vento
     event->accept();
