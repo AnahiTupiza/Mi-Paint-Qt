@@ -3,6 +3,16 @@
 
 #define DEFAULT_ANCHO 3
 
+#include <QImage>
+#include <QPainter>
+#include <QMouseEvent>
+#include <QPaintEvent>
+#include <QDebug>
+#include <QInputDialog>
+#include <QColorDialog>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QPoint>
 //:)
 Principal::Principal(QWidget *parent)
     : QMainWindow(parent)
@@ -78,7 +88,6 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
 
 void Principal::mouseReleaseEvent(QMouseEvent *event)
 {
-    //Bajar la bandera (no se ...)
     mPuedeDibujar = false;
     // Aceptar el vento
     event->accept();
@@ -131,3 +140,51 @@ void Principal::on_actionGuardar_triggered()
                                  "No se pudo almacenar la imagen.");
     }
 }
+
+
+void Principal::on_actionCircunferencias_triggered()
+{
+    QPen pincel;
+    pincel.setColor(mColor);
+    pincel.setWidth(mAncho);
+
+    mPainter->setPen(pincel);
+    mPainter->drawEllipse(mInicial.x(),mInicial.y(),mFinal.x()-mInicial.x(),mFinal.y()-mInicial.y());
+
+    update();
+
+}
+
+
+
+
+
+
+
+void Principal::on_actionRect_nculos_triggered()
+{
+    QPen pincel;
+    pincel.setColor(mColor);
+    pincel.setWidth(mAncho);
+    // Dibujar una linea con el Painter (Pintor) Principal
+    mPainter->setPen(pincel);
+    mPainter->drawRect(mInicial.x(),mInicial.y(),mFinal.x()-mInicial.x(),mFinal.y()-mInicial.y());
+    // Actualizar la interfaz -> Se invoca al método PaintEvent (Repintar con paintEvent)
+    // Vuelve a dibujar la imagen para ver los cambios que surgen
+    update();
+}
+
+
+void Principal::on_actionLineas_triggered()
+{
+    QPen pincel;
+    pincel.setColor(mColor);
+    pincel.setWidth(mAncho);
+    // Dibujar una linea con el Painter (Pintor) Principal
+    QLine linea(mInicial.x(),mInicial.ry(),mFinal.x(),mFinal.ry());
+    mPainter->drawLine(linea);
+    // Actualizar la interfaz -> Se invoca al método PaintEvent (Repintar con paintEvent)
+    // Vuelve a dibujar la imagen para ver los cambios que surgen
+    update();
+}
+
