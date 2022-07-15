@@ -11,7 +11,7 @@
 #include <QColorDialog>
 #include <QFileDialog>
 #include <QMessageBox>
-
+#include <QPoint>
 
 
 QT_BEGIN_NAMESPACE
@@ -58,10 +58,11 @@ private:
     QPainter *mPainter;     // Painter de la imagen
     QPoint mInicial;        // Punto incial para dibujar la línea
     QPoint mFinal;          // Punto final para dibujar la línea
-    //QPoint mCentro;
+    QPoint mCentro;
     bool mPuedeDibujar;     // Determina si debe o no dibujar
     int mAncho;             // Define el ancho del pincel
     QColor mColor;          // Define el color del pincel
     int mNumLineas;         // Cuenta el número de líneas
+
 };
 #endif // PRINCIPAL_H

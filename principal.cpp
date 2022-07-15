@@ -3,16 +3,7 @@
 
 #define DEFAULT_ANCHO 3
 
-#include <QImage>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QPaintEvent>
-#include <QDebug>
-#include <QInputDialog>
-#include <QColorDialog>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QPoint>
+
 //:)
 Principal::Principal(QWidget *parent)
     : QMainWindow(parent)
@@ -52,9 +43,8 @@ void Principal::paintEvent(QPaintEvent *event)
 
 void Principal::mousePressEvent(QMouseEvent *event)
 {
-    //levanta la bandera (para que se pueda dibujar)
+
     mPuedeDibujar = true;
-    //captura la posición (punto x,y) del mouse
     mInicial = event->pos();
     //Acepta el evento
     event->accept();
@@ -64,12 +54,13 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
 {
     // Validar si se puede dibujar
     if ( !mPuedeDibujar ) {
-        //Acepta el evento
+        // aceptar el evento
         event->accept();
-        //Salir del método
+        //salir del metodo
         return;
     }
-    // Capturar el punto donde se mueve el mouse
+
+    // Capturar el punto donde se suelta el mouse
     mFinal = event->pos();
     // Crear un pincel y establecer atributos
     QPen pincel;
@@ -80,7 +71,7 @@ void Principal::mouseMoveEvent(QMouseEvent *event)
     mPainter->drawLine(mInicial, mFinal);
     // Mostrar el número de líneas en la barra de estado
     ui->statusbar->showMessage("Número de líneas: " + QString::number(++mNumLineas));
-    // Actualizar la interfaz
+    // Actualizar la interfaz (repintar con paintEvent)
     update();
     // actualizar el punto inicial
     mInicial = mFinal;
@@ -149,29 +140,23 @@ void Principal::on_actionCircunferencias_triggered()
     pincel.setWidth(mAncho);
 
     mPainter->setPen(pincel);
-    mPainter->drawEllipse(mInicial.x(),mInicial.y(),mFinal.x()-mInicial.x(),mFinal.y()-mInicial.y());
 
+    mPainter->drawEllipse(mInicial.x(),mInicial.y(),mFinal.x()- mInicial.x(),mFinal.y()- mInicial.y());
     update();
 
 }
 
 
-
-
-
-
-
 void Principal::on_actionRect_nculos_triggered()
 {
     QPen pincel;
-    pincel.setColor(mColor);
-    pincel.setWidth(mAncho);
-    // Dibujar una linea con el Painter (Pintor) Principal
-    mPainter->setPen(pincel);
-    mPainter->drawRect(mInicial.x(),mInicial.y(),mFinal.x()-mInicial.x(),mFinal.y()-mInicial.y());
-    // Actualizar la interfaz -> Se invoca al método PaintEvent (Repintar con paintEvent)
-    // Vuelve a dibujar la imagen para ver los cambios que surgen
-    update();
+     pincel.setColor(mColor);
+     pincel.setWidth(mAncho);
+
+     mPainter->setPen(pincel);
+     mPainter->drawRect(mInicial.x(),mInicial.y(),mFinal.x()-mInicial.x(),mFinal.y()-mInicial.y());
+
+     update();
 }
 
 
@@ -180,11 +165,11 @@ void Principal::on_actionLineas_triggered()
     QPen pincel;
     pincel.setColor(mColor);
     pincel.setWidth(mAncho);
-    // Dibujar una linea con el Painter (Pintor) Principal
+
     QLine linea(mInicial.x(),mInicial.ry(),mFinal.x(),mFinal.ry());
+
     mPainter->drawLine(linea);
-    // Actualizar la interfaz -> Se invoca al método PaintEvent (Repintar con paintEvent)
-    // Vuelve a dibujar la imagen para ver los cambios que surgen
+
     update();
 }
 
